@@ -33,17 +33,10 @@ app.post("/webhook", (req, res) => {
     // });
 
     const verifier = new WebhookEventVerifier(webhookToken);
-    try {
-      const event = verifier.readPayload(
-        JSON.stringify(rawEventBody),
-        signature
-      );
-      console.log(event, "event123");
-    } catch (error) {
-      // TODO: Handle invalid webhooks.
-      // console.log(' Onfido Webhook Verification Failed ', error);
-      return null;
-    }
+
+    const event = verifier.readPayload(JSON.stringify(rawEventBody), signature);
+    
+    console.log(event, "event123");
 
     res.status(200).send("Webhook received successfully");
   } catch (err) {
