@@ -8,7 +8,7 @@ app.post("/webhook", (req, res) => {
   try {
     //console.log(req);
     const payload = req;
-    console.log("Received webhook payload:", JSON.stringify(payload));
+    console.log("Received webhook payload:", payload);
     res.status(200).send("Webhook received successfully");
   } catch (err) {
     console.log(err);
