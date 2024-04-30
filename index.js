@@ -6,7 +6,7 @@ app.use(cors());
 
 app.post("/webhook", (req, res) => {
   try {
-    console.log(req);
+    //console.log(req);
     const payload = req.body;
     console.log("Received webhook payload:", payload);
     res.status(403).send("Webhook received successfully");
