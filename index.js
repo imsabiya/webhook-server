@@ -22,10 +22,11 @@ app.post("/webhook", (req, res) => {
     console.log("Received webhook payload:", payload);
 
     const webhookToken = "z2N2WUMM3Pb4vbAIcDwo-2XCxtZ6mLtY";
-    const signature = req.headers["x-sha2-signature"] || req.headers["X-Sha2-Signature"];
+    const signature =
+      req.headers["x-sha2-signature"] || req.headers["X-Sha2-Signature"];
     const rawEventBody = req.body.payload;
-    console.log(rawEventBody, "rawEventBody", req.headers["x-sha2-signature"] , req.headers["X-Sha2-Signature"]);
-    let response;
+    console.log(rawEventBody, "rawEventBody", req.headers["x-sha2-signature"]);
+
     // const Event = readWebhookEvent({
     //   rawEventBody,
     //   signature,
