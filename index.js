@@ -33,7 +33,7 @@ app.post("/webhook", (req, res) => {
       .update(JSON.stringify(rawEventBody))
       .digest("hex");
 
-    const isSignatureValid = computedSignature === providedSignature;
+    const isSignatureValid = computedSignature === signature;
 
     if (isSignatureValid) {
       console.log("Onfido webhook signature is valid");
