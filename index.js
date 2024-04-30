@@ -22,9 +22,9 @@ app.post("/webhook", (req, res) => {
     console.log("Received webhook payload:", payload);
 
     const webhookToken = "z2N2WUMM3Pb4vbAIcDwo-2XCxtZ6mLtY";
-    const signature = req.headers["x-sha2-signature"];
+    const signature = req.headers["x-sha2-signature"] || req.headers["X-Sha2-Signature"];
     const rawEventBody = req.body.payload;
-    console.log(rawEventBody, "rawEventBody");
+    console.log(rawEventBody, "rawEventBody", req.headers["x-sha2-signature"] , req.headers["X-Sha2-Signature"]);
     let response;
     // const Event = readWebhookEvent({
     //   rawEventBody,
@@ -35,7 +35,7 @@ app.post("/webhook", (req, res) => {
     const verifier = new WebhookEventVerifier(webhookToken);
 
     const event = verifier.readPayload(JSON.stringify(rawEventBody), signature);
-    
+
     console.log(event, "event123");
 
     res.status(200).send("Webhook received successfully");
