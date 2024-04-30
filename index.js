@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const crypto = require("crypto");
 
 const {
   Onfido,
@@ -27,19 +28,28 @@ app.post("/webhook", (req, res) => {
     const rawEventBody = req.body.payload;
     console.log(rawEventBody, "rawEventBody", req.headers["x-sha2-signature"]);
 
-    // const Event = readWebhookEvent({
-    //   rawEventBody,
-    //   signature,
-    //   webhookToken,
-    // });
+    const computedSignature = crypto
+      .createHmac("sha256", webhookToken)
+      .update(JSON.stringify(requestBody))
+      .digest("hex");
 
-    const verifier = new WebhookEventVerifier(webhookToken);
+    const isSignatureValid = computedSignature === providedSignature;
 
-    const event = verifier.readPayload(JSON.stringify(rawEventBody), signature);
+    if (isSignatureValid) {
+      console.log("Onfido webhook signature is valid");
+      const verifier = new WebhookEventVerifier(webhookToken);
 
-    console.log(event, "event123");
+      const event = verifier.readPayload(
+        JSON.stringify(rawEventBody),
+        signature
+      );
 
-    res.status(200).send("Webhook received successfully");
+      console.log(event, "event123");
+    } else {
+      console.error("Onfido webhook signature is invalid");
+    }
+
+    //res.status(200).send("Webhook received successfully");
   } catch (err) {
     console.log(err);
     res.status(400).send("error");
