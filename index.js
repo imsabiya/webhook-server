@@ -9,8 +9,8 @@ app.use(bodyParser.json());
 
 app.post("/webhook", (req, res) => {
   try {
-    console.log(req, req.payload,"req");
-    const payload = req.payload;
+    console.log(req, req.body.payload,"req");
+    const payload = req.body.payload;
     console.log("Received webhook payload:", payload);
     res.status(200).send("Webhook received successfully");
   } catch (err) {
