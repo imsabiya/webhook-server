@@ -30,7 +30,7 @@ app.post("/webhook", (req, res) => {
 
     const computedSignature = crypto
       .createHmac("sha256", webhookToken)
-      .update(JSON.stringify(requestBody))
+      .update(JSON.stringify(rawEventBody))
       .digest("hex");
 
     const isSignatureValid = computedSignature === providedSignature;
