@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const crypto = require("crypto");
+const dotenv = require('dotenv');
+
 
 const {
   Onfido,
@@ -13,8 +15,11 @@ const {
 
 const app = express();
 
+dotenv.config();
+
 app.use(cors());
 app.use(bodyParser.json());
+
 
 app.post("/webhook", (req, res) => {
   try {
@@ -22,7 +27,7 @@ app.post("/webhook", (req, res) => {
     const payload = req.body.payload;
     console.log("Received webhook payload:", payload);
 
-    const webhookToken = "z2N2WUMM3Pb4vbAIcDwo-2XCxtZ6mLtY";
+    const webhookToken = `${process.env.WEBHOOK_TOKEN}`;
     const signature =
       req.headers["x-sha2-signature"] || req.headers["X-Sha2-Signature"];
     const rawEventBody = req.body.payload;
